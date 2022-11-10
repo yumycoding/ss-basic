@@ -1,7 +1,8 @@
 package com.yumyapps.ssbasic.config;
 
-import com.yumyapps.ssbasic.config.filters.CustomKeyAuthenticationFilter;
+import com.yumyapps.ssbasic.config.filters.ApiKeyAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,22 +10,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
-@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomKeyAuthenticationFilter keyAuthenticationFilter;
+//    @Value("${secret.key}")
+    private String apiKey = "Hello";
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
-                .addFilterAt(keyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests().anyRequest().authenticated()
+                .httpBasic()
                 .and()
+                .addFilterBefore(new ApiKeyAuthenticationFilter(apiKey), BasicAuthenticationFilter.class)
+
                 .build();
+
+        //.and().authenticationManager()   or  by adding a bean of type AuthenticationManager
+        //.and().authenticationProvider() it doesn't override the AP, it adds one more to the collection
 
     }
 

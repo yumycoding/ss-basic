@@ -2,19 +2,17 @@ package com.yumyapps.ssbasic.config.authentication;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.security.auth.Subject;
 import java.util.Collection;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
-public class CustomAuthentication implements Authentication {
 
-    private final boolean authentication;
+@RequiredArgsConstructor
+public class ApiKeyAuthentication implements Authentication {
+
+    private boolean authentication;
     private final String key;
 
     @Override
@@ -24,7 +22,7 @@ public class CustomAuthentication implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        // TODO document why this method is empty
+        this.authentication = isAuthenticated;
     }
 
     @Override
@@ -57,5 +55,7 @@ public class CustomAuthentication implements Authentication {
         return null;
     }
 
-
+    public String getKey() {
+        return key;
+    }
 }
