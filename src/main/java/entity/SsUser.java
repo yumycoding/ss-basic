@@ -1,4 +1,4 @@
-package com.yumyapps.ssbasic.entity;
+package entity;
 
 import lombok.*;
 

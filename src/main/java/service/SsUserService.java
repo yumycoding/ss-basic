@@ -1,9 +1,8 @@
-package com.yumyapps.ssbasic.service;
+package service;
 
-import com.yumyapps.ssbasic.config.SsUserDetails;
-import com.yumyapps.ssbasic.dao.SsUserRepository;
-import com.yumyapps.ssbasic.entity.RegisterUserDto;
-import com.yumyapps.ssbasic.entity.SsUser;
+import dao.SsUserRepository;
+import entity.RegisterUserDto;
+import entity.SsUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +33,7 @@ public class SsUserService implements UserDetailsService {
     public SsUser registerNewUser(RegisterUserDto userDto) {
 
         userRepository.findByUserName(userDto.getUserName()).ifPresent(u -> {
-            throw new EntityExistsException("userDto already exist" + u);
+            throw new EntityExistsException("already exist" + u);
         });
 
         userDto.setUserPassword(passwordEncoder.encode(userDto.getUserPassword()));
