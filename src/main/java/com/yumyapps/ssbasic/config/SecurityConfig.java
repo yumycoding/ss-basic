@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 public class SecurityConfig {
 
-//    @Value("${secret.key}")
+    @Value("${secret.key}")
     private String apiKey = "Hello";
 
 
@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .httpBasic()
                 .and()
                 .addFilterBefore(new ApiKeyAuthenticationFilter(apiKey), BasicAuthenticationFilter.class)
-
+                .authorizeRequests().anyRequest().authenticated().and()
                 .build();
 
         //.and().authenticationManager()   or  by adding a bean of type AuthenticationManager
@@ -35,10 +35,10 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    BCryptPasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    BCryptPasswordEncoder getPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

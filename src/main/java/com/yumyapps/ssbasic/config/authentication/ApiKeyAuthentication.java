@@ -1,6 +1,5 @@
 package com.yumyapps.ssbasic.config.authentication;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
